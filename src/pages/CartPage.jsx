@@ -1,10 +1,40 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../context/ProductContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CartPage = () => {
   const { cartItems, removeFromCart, clearCart } = useContext(ProductContext);
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+
+  // Handle item removal
+  const handleRemoveFromCart = (productId, productName) => {
+    removeFromCart(productId);
+    toast.info(`${productName} removed from cart!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+  // Handle clear cart
+  const handleClearCart = () => {
+    clearCart();
+    toast.warning("Cart cleared!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
 
   return (
     <div className="max-w-3xl mx-auto p-4">
@@ -15,10 +45,11 @@ const CartPage = () => {
           <p className="text-center text-3xl font-medium font-bold text-red-500 m-20 ">
             Your cart is empty.
           </p>
-          <Link to="/products" className="block text-center w-60 text-xl font-semibold text-white bg-blue-600 px-6 py-2 rounded-md mx-auto">
-            
-              Go Shopping
-            
+          <Link
+            to="/products"
+            className="block text-center w-60 text-xl font-semibold text-white bg-blue-600 px-6 py-2 rounded-md mx-auto"
+          >
+            Go Shopping
           </Link>
         </div>
       ) : (
@@ -41,7 +72,9 @@ const CartPage = () => {
                 </div>
                 <button
                   className="bg-red-600 text-white px-4 py-2 rounded-md font-bold"
-                  onClick={() => removeFromCart(item.product_id)}
+                  onClick={() =>
+                    handleRemoveFromCart(item.product_id, item.product_name)
+                  }
                 >
                   Remove
                 </button>
@@ -57,7 +90,7 @@ const CartPage = () => {
             <div>
               <button
                 className="bg-red-600 text-white px-6 py-2 rounded-md font-semibold mr-4"
-                onClick={clearCart}
+                onClick={handleClearCart}
               >
                 Clear Cart
               </button>

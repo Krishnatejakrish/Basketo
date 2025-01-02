@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { ProductContextProvider } from "./context/ProductContext";
 import ProductDetail from "./pages/ProductDetail";
+import { ToastContainer } from "react-toastify";
 // import SlideShow from "./components/SlideShow";
 
 
@@ -14,6 +15,7 @@ const App = () => {
     <main>
       <ProductContextProvider>
       <Navbar />
+      <ToastContainer />
       
       <Routes>
         <Route path="/" element={<Home/>} />

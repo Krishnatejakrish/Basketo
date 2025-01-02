@@ -1,13 +1,24 @@
 import React, { useContext } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useContext(ProductContext);
-  
+
   const AddCart = (e) => {
     e.preventDefault();
     addToCart(product.product_id);
+    toast.success(`${product.product_name} added to cart!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
 
   return (
@@ -18,8 +29,12 @@ const ProductCard = ({ product }) => {
         className="h-28 w-full object-cover hover:scale-80 transition-transform duration-300"
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold text-gray-800 truncate">{product.product_name}</h2>
-        <p className="text-sm text-gray-600 mt-1">Price: ₹{product.price.toFixed(2)}</p>
+        <h2 className="text-xl font-semibold text-gray-800 truncate">
+          {product.product_name}
+        </h2>
+        <p className="text-sm text-gray-600 mt-1">
+          Price: ₹{product.price.toFixed(2)}
+        </p>
         <p className="text-sm text-gray-600">Quantity: {product.quantity}</p>
         <p className="text-sm text-gray-600 mt-2">Category: {product.category}</p>
         <p className="text-sm text-gray-600">Brand: {product.brand}</p>
